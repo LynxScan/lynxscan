@@ -147,10 +147,12 @@
     .botlynx-features li::before { content: '→'; position: absolute; left: 0; color: #aef3c4; font-weight: 800; font-size: 1.2rem; }
     .bot-btn { background: #aef3c4; color: #0f3d2a; }
     .bot-btn:hover { background: var(--white); transform: translateY(-2px); }
-    .botlynx-mock { background: rgba(0,0,0,0.25); border-radius: var(--radius); padding: 30px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-    .telegram-msg { background: var(--white); color: var(--dark); padding: 14px 18px; border-radius: 14px; margin-bottom: 12px; max-width: 88%; font-size: 0.92rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .telegram-msg.user { background: #d8f0e1; margin-left: auto; }
-    .telegram-msg strong { display: block; color: #0f3d2a; font-size: 0.78rem; margin-bottom: 4px; }
+    .botlynx-mock { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+    .botlynx-mock figure { background: rgba(0,0,0,0.18); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 10px; backdrop-filter: blur(6px); }
+    .botlynx-mock img { width: 100%; height: auto; border-radius: 8px; display: block; }
+    .botlynx-mock figcaption { font-size: 0.78rem; color: rgba(255,255,255,0.85); text-align: center; padding: 8px 4px 2px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+    .botlynx-mock .pdf-card { grid-column: span 2; }
+    .botlynx-mock .pdf-card img { max-height: 360px; object-fit: contain; background: var(--white); }
 
     /* GALERÍA */
     .galeria { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
@@ -259,7 +261,7 @@
           </div>
         </div>
         <div class="hero-img">
-          <img src="assets/scanner-render.png" alt="LynxScan LS-501-PRO">
+          <img src="assets/hero-scanner.png" alt="LynxScan LS-501-PRO">
           <span class="hero-badge" data-i18n="hero_badge">2D · 3D · IA</span>
         </div>
       </div>
@@ -418,8 +420,8 @@
       <div class="botlynx-grid">
         <div>
           <span class="eyebrow" data-i18n="bot_eyebrow">Complemento BotLynx</span>
-          <h2><span data-i18n="bot_title1">Tu aserradero,</span> <span class="accent" data-i18n="bot_title2">en el bolsillo</span></h2>
-          <p data-i18n="bot_p1">BotLynx exprime al máximo tu escáner LynxScan llevando toda la producción a Telegram: consultas en lenguaje natural, alertas de línea inactiva e informe mensual PDF automático.</p>
+          <h2><span data-i18n="bot_title1">Tu parque de troncos,</span> <span class="accent" data-i18n="bot_title2">en tiempo real.</span></h2>
+          <p data-i18n="bot_p1">BotLynx exprime al máximo tu escáner LynxScan llevando toda la producción a un chat en vivo: consultas en lenguaje natural, alertas de línea inactiva e informe mensual PDF automático.</p>
           <p data-i18n="bot_p2">Pregúntale como hablas — respuesta en segundos. Tus datos no salen del aserradero: IA local, base de datos en sólo lectura, whitelist de usuarios.</p>
           <ul class="botlynx-features">
             <li data-i18n="bot_f1">Producción en tiempo real desde Telegram</li>
@@ -430,22 +432,18 @@
           <a href="https://bittingenieria.github.io/botlynx/" target="_blank" rel="noopener" class="btn bot-btn" data-i18n="bot_cta">Descubrir BotLynx →</a>
         </div>
         <div class="botlynx-mock">
-          <div class="telegram-msg user">
-            <strong>Tú</strong>
-            <span data-i18n="bot_msg1">¿Cuántos boxes salieron ayer?</span>
-          </div>
-          <div class="telegram-msg">
-            <strong>@Lynx_bot</strong>
-            <span data-i18n="bot_msg2">Ayer salieron 14 boxes (1.247 troncos, 156 m³). Hora punta: 11:00.</span>
-          </div>
-          <div class="telegram-msg user">
-            <strong>Tú</strong>
-            <span data-i18n="bot_msg3">/informe</span>
-          </div>
-          <div class="telegram-msg">
-            <strong>@Lynx_bot</strong>
-            <span data-i18n="bot_msg4">📄 Informe mensual generado. Enviado por email + adjunto aquí.</span>
-          </div>
+          <figure>
+            <img src="assets/bot-chat-boxes.jpg" alt="Consulta boxes ayer en BotLynx" loading="lazy">
+            <figcaption data-i18n="bot_cap1">Consulta en lenguaje natural</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/bot-chat-informe.jpg" alt="Entrega de informe mensual PDF" loading="lazy">
+            <figcaption data-i18n="bot_cap2">Informe mensual en PDF</figcaption>
+          </figure>
+          <figure class="pdf-card">
+            <img src="assets/bot-informe-pdf.jpg" alt="Portada del informe mensual de producción" loading="lazy">
+            <figcaption data-i18n="bot_cap3">Informe mensual automático · cada día 1</figcaption>
+          </figure>
         </div>
       </div>
     </div>
@@ -609,18 +607,17 @@
         sw_l3: "Configuración técnica de parámetros",
         sw_l4: "Multilenguaje (ES / EN)",
         sw_l5: "Integración directa con PLC de aserrado",
-        bot_eyebrow: "Complemento BotLynx", bot_title1: "Tu aserradero,", bot_title2: "en el bolsillo",
-        bot_p1: "BotLynx exprime al máximo tu escáner LynxScan llevando toda la producción a Telegram: consultas en lenguaje natural, alertas de línea inactiva e informe mensual PDF automático.",
+        bot_eyebrow: "Complemento BotLynx", bot_title1: "Tu parque de troncos,", bot_title2: "en tiempo real.",
+        bot_p1: "BotLynx exprime al máximo tu escáner LynxScan llevando toda la producción a un chat en vivo: consultas en lenguaje natural, alertas de línea inactiva e informe mensual PDF automático.",
         bot_p2: "Pregúntale como hablas — respuesta en segundos. Tus datos no salen del aserradero: IA local, base de datos en sólo lectura, whitelist de usuarios.",
+        bot_cap1: "Consulta en lenguaje natural",
+        bot_cap2: "Informe mensual en PDF",
+        bot_cap3: "Informe mensual automático · cada día 1",
         bot_f1: "Producción en tiempo real desde Telegram",
         bot_f2: "Alertas automáticas si la línea cae",
         bot_f3: "Informe mensual PDF cada día 1 (Telegram + email)",
         bot_f4: "Llave en mano · sin instalación por parte del cliente",
         bot_cta: "Descubrir BotLynx →",
-        bot_msg1: "¿Cuántos boxes salieron ayer?",
-        bot_msg2: "Ayer salieron 14 boxes (1.247 troncos, 156 m³). Hora punta: 11:00.",
-        bot_msg3: "/informe",
-        bot_msg4: "📄 Informe mensual generado. Enviado por email + adjunto aquí.",
         gal_eyebrow: "En producción", gal_title1: "LynxScan", gal_title2: "en aserraderos reales",
         why_eyebrow: "¿Por qué elegir LynxScan?", why_title1: "La diferencia", why_title2: "en cada tronco",
         why1_t: "Trazabilidad de principio a fin", why1_p: "Cada tronco identificado desde el patio hasta el corte. Cada tabla con su historial.",
@@ -683,18 +680,17 @@
         sw_l3: "Technical parameter configuration",
         sw_l4: "Multi-language (ES / EN)",
         sw_l5: "Direct integration with sawmill PLC",
-        bot_eyebrow: "BotLynx add-on", bot_title1: "Your sawmill,", bot_title2: "in your pocket",
-        bot_p1: "BotLynx unlocks the full potential of your LynxScan scanner by bringing all production to Telegram: natural-language queries, downtime alerts and automatic monthly PDF reports.",
+        bot_eyebrow: "BotLynx add-on", bot_title1: "Your log yard,", bot_title2: "in real time.",
+        bot_p1: "BotLynx unlocks the full potential of your LynxScan scanner by bringing all production to a live chat: natural-language queries, downtime alerts and automatic monthly PDF reports.",
         bot_p2: "Ask in plain language — answer in seconds. Your data never leaves the sawmill: local AI, read-only database, user whitelist.",
+        bot_cap1: "Natural-language query",
+        bot_cap2: "Monthly PDF report",
+        bot_cap3: "Automatic monthly report · 1st of every month",
         bot_f1: "Real-time production from Telegram",
         bot_f2: "Automatic alerts if the line goes down",
         bot_f3: "Monthly PDF report every 1st (Telegram + email)",
         bot_f4: "Turnkey · zero installation on customer side",
         bot_cta: "Discover BotLynx →",
-        bot_msg1: "How many boxes came out yesterday?",
-        bot_msg2: "Yesterday: 14 boxes (1,247 logs, 156 m³). Peak hour: 11:00.",
-        bot_msg3: "/report",
-        bot_msg4: "📄 Monthly report generated. Sent by email + attached here.",
         gal_eyebrow: "In production", gal_title1: "LynxScan", gal_title2: "at real sawmills",
         why_eyebrow: "Why choose LynxScan?", why_title1: "The difference", why_title2: "in every log",
         why1_t: "Traceability from start to finish", why1_p: "Every log tracked from yard to cut. Every board with its history.",

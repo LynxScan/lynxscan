@@ -67,13 +67,9 @@ Sección dedicada con mockup de chat Telegram. Link directo a `https://bittingen
 
 ## Publicación
 
-**Publicar en GitHub Pages** — pendiente. Probable cuenta `bittingenieria` (la misma de botlynx) o crear `lynxscantech`. Confirmar con el usuario antes de empujar.
-
-Comandos tipo:
-```bash
-gh repo create <user>/lynxscan-landing --public --source=. --push
-gh api repos/<user>/lynxscan-landing/pages --method POST --field source='{"branch":"main","path":"/"}'
-```
+- **URL pública**: https://lynxscan.github.io/lynxscan/
+- **Repo**: https://github.com/LynxScan/lynxscan (cuenta `LynxScan`, propia, separada de `bittingenieria`)
+- **Para actualizar**: editar `index.html` o `assets/`, luego `git add -A && git commit -m "..." && git push`. Pages republica en ~30-60 s.
 
 ## Estado · 2026-05-26
 
@@ -81,5 +77,5 @@ gh api repos/<user>/lynxscan-landing/pages --method POST --field source='{"branc
 - 8 fotos curadas en `assets/` (escáner exterior, interior, render, software UI, panel control, troncos, línea, escáner con troncos)
 - Logo: `assets/logo.png` (de `recursos/logo_lynx.png`)
 - `index.html` completo, single-file, biling�e ES/EN funcional
-- Probada localmente en navegador — pendiente revisión visual del usuario
-- **Pendiente**: cuenta GitHub para Pages y push
+- Probada localmente en navegador
+- Repo `LynxScan/lynxscan` creado y publicado en https://lynxscan.github.io/lynxscan/ — 200 OK
