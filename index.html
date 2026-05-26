@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LynxScan — Escaneo industrial para aserraderos | 2D & 3D</title>
+  <meta name="description" content="Sistemas de escaneo 2D y 3D con IA para aserraderos y madera transformada. Más control, menos desperdicio, mejores decisiones.">
+
+  <meta property="og:title" content="LynxScan — Escanea. Optimiza. Crece.">
+  <meta property="og:description" content="Escáneres industriales 2D y 3D con IA para aserraderos y madera transformada.">
+  <meta property="og:image" content="assets/logo.png">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sage:        #9CAA94;
+      --sage-dark:   #6F7E68;
+      --sage-light:  #C7D1BF;
+      --yellow:      #F4D81C;
+      --yellow-dark: #D9BE00;
+      --dark:        #1F2420;
+      --gray:        #6B6F6A;
+      --light:       #F2F3F0;
+      --white:       #FFFFFF;
+      --font-title:  'Barlow Condensed', sans-serif;
+      --font-body:   'Inter', sans-serif;
+      --radius:      10px;
+      --shadow:      0 8px 30px rgba(0,0,0,0.08);
+      --shadow-lg:   0 16px 50px rgba(0,0,0,0.18);
+      --transition:  0.3s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--white); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 90px 0; }
+    .eyebrow { display: inline-block; font-family: var(--font-title); font-weight: 700; letter-spacing: 3px; color: var(--sage-dark); text-transform: uppercase; font-size: 0.9rem; margin-bottom: 14px; }
+    .section-title { font-family: var(--font-title); font-weight: 800; font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.05; text-transform: uppercase; }
+    .section-title .accent { color: var(--yellow-dark); }
+    .section-subtitle { color: var(--gray); max-width: 720px; margin-top: 14px; font-size: 1.05rem; }
+    .center { text-align: center; }
+    .center .section-subtitle { margin-left: auto; margin-right: auto; }
+
+    /* HEADER */
+    header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: saturate(160%) blur(10px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; max-width: 1200px; margin: 0 auto; }
+    .brand { display: flex; align-items: center; gap: 12px; font-family: var(--font-title); font-weight: 800; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1px; }
+    .brand img { width: 42px; height: 42px; object-fit: contain; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { font-weight: 500; font-size: 0.95rem; color: var(--dark); }
+    .nav-links a:hover { color: var(--sage-dark); }
+    .lang-switch { display: inline-flex; background: var(--light); border-radius: 999px; padding: 4px; gap: 2px; }
+    .lang-switch button { background: transparent; border: none; padding: 6px 14px; border-radius: 999px; cursor: pointer; font-family: var(--font-body); font-weight: 600; font-size: 0.85rem; color: var(--gray); transition: var(--transition); }
+    .lang-switch button.active { background: var(--dark); color: var(--white); }
+    .hamburger { display: none; background: transparent; border: none; cursor: pointer; padding: 8px; }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--dark); margin: 6px 0; transition: var(--transition); }
+
+    /* HERO */
+    .hero { position: relative; background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%); color: var(--white); padding: 110px 0 90px; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at top right, rgba(244,216,28,0.18), transparent 60%); pointer-events: none; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: center; position: relative; }
+    .hero h1 { font-family: var(--font-title); font-weight: 800; font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 0.95; text-transform: uppercase; margin-bottom: 22px; }
+    .hero h1 .y { color: var(--yellow); display: block; }
+    .hero p.lead { font-size: 1.15rem; max-width: 540px; margin-bottom: 16px; opacity: 0.95; }
+    .hero p.sub { font-size: 1rem; max-width: 540px; opacity: 0.82; margin-bottom: 34px; }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-img { position: relative; }
+    .hero-img img { border-radius: var(--radius); box-shadow: var(--shadow-lg); }
+    .hero-badge { position: absolute; bottom: -22px; left: -22px; background: var(--yellow); color: var(--dark); padding: 14px 22px; border-radius: 8px; font-family: var(--font-title); font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; box-shadow: var(--shadow); }
+
+    /* BUTTONS */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 16px 28px; border-radius: var(--radius); font-weight: 600; font-size: 0.98rem; cursor: pointer; transition: var(--transition); min-height: 52px; border: none; font-family: var(--font-body); }
+    .btn-primary { background: var(--yellow); color: var(--dark); }
+    .btn-primary:hover { background: var(--white); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.5); }
+    .btn-outline:hover { background: rgba(255,255,255,0.15); border-color: var(--white); }
+    .btn-dark { background: var(--dark); color: var(--white); }
+    .btn-dark:hover { background: var(--sage-dark); }
+
+    /* VALOR */
+    .valor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 50px; }
+    .valor-card { background: var(--light); padding: 30px 24px; border-radius: var(--radius); border-left: 4px solid var(--yellow); transition: var(--transition); }
+    .valor-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .valor-icon { width: 50px; height: 50px; background: var(--sage); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); font-family: var(--font-title); font-weight: 800; font-size: 1.4rem; margin-bottom: 16px; }
+    .valor-card h3 { font-family: var(--font-title); font-weight: 700; font-size: 1.25rem; text-transform: uppercase; margin-bottom: 10px; line-height: 1.1; }
+    .valor-card p { color: var(--gray); font-size: 0.95rem; }
+
+    /* SECTORES */
+    .sectores-bg { background: var(--light); }
+    .sectores-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 50px; }
+    .sector-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); }
+    .sector-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .sector-card img { width: 100%; height: 260px; object-fit: cover; }
+    .sector-body { padding: 30px; }
+    .sector-tag { display: inline-block; background: var(--sage); color: var(--white); padding: 6px 14px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 12px; }
+    .sector-body h3 { font-family: var(--font-title); font-weight: 800; font-size: 1.6rem; text-transform: uppercase; margin-bottom: 12px; }
+    .sector-body p { color: var(--gray); }
+
+    /* PRODUCTOS */
+    .productos-bg { background: var(--dark); color: var(--white); }
+    .productos-bg .eyebrow { color: var(--yellow); }
+    .productos-bg .section-subtitle { color: rgba(255,255,255,0.65); }
+    .productos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 50px; }
+    .producto { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); padding: 32px; transition: var(--transition); }
+    .producto:hover { border-color: var(--yellow); transform: translateY(-4px); }
+    .producto.featured { grid-column: span 2; display: grid; grid-template-columns: 1fr 1.2fr; gap: 32px; align-items: center; }
+    .producto.featured .producto-img { display: block; }
+    .producto-img { display: none; border-radius: 8px; overflow: hidden; }
+    .producto-img img { width: 100%; height: 100%; object-fit: cover; min-height: 280px; }
+    .producto-code { display: inline-block; background: var(--yellow); color: var(--dark); padding: 6px 14px; border-radius: 6px; font-family: var(--font-title); font-weight: 800; letter-spacing: 1.5px; margin-bottom: 14px; font-size: 0.9rem; }
+    .producto h3 { font-family: var(--font-title); font-weight: 800; font-size: 1.7rem; text-transform: uppercase; line-height: 1.05; margin-bottom: 8px; }
+    .producto .sub { color: var(--yellow); font-weight: 600; margin-bottom: 20px; font-size: 0.95rem; }
+    .producto ul { list-style: none; }
+    .producto ul li { padding: 9px 0; padding-left: 28px; position: relative; color: rgba(255,255,255,0.85); font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .producto ul li:last-child { border-bottom: none; }
+    .producto ul li::before { content: '✓'; position: absolute; left: 0; top: 9px; color: var(--yellow); font-weight: 800; }
+    .producto .specs { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; color: rgba(255,255,255,0.75); }
+    .producto .specs span { display: inline-flex; align-items: center; gap: 6px; }
+    .producto .specs strong { color: var(--yellow); font-weight: 700; }
+
+    /* SOFTWARE */
+    .software-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: center; margin-top: 40px; }
+    .software-grid img { border-radius: var(--radius); box-shadow: var(--shadow-lg); }
+    .software-list { list-style: none; margin-top: 24px; }
+    .software-list li { padding: 12px 0; padding-left: 36px; position: relative; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .software-list li::before { content: ''; position: absolute; left: 0; top: 16px; width: 22px; height: 22px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; }
+    .software-list li::after { content: '✓'; position: absolute; left: 5px; top: 12px; color: var(--dark); font-weight: 800; font-size: 0.85rem; }
+
+    /* BOTLYNX */
+    .botlynx-bg { background: linear-gradient(135deg, #0f3d2a 0%, #1f6e3d 60%, #3aa856 100%); color: var(--white); }
+    .botlynx-bg .eyebrow { color: #aef3c4; }
+    .botlynx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .botlynx-grid h2 { font-family: var(--font-title); font-weight: 800; font-size: clamp(2rem, 4.5vw, 3.2rem); text-transform: uppercase; line-height: 1.05; margin-bottom: 18px; }
+    .botlynx-grid h2 .accent { color: #aef3c4; }
+    .botlynx-grid p { font-size: 1.05rem; opacity: 0.92; margin-bottom: 14px; }
+    .botlynx-features { list-style: none; margin: 24px 0 30px; }
+    .botlynx-features li { padding: 10px 0 10px 32px; position: relative; opacity: 0.95; }
+    .botlynx-features li::before { content: '→'; position: absolute; left: 0; color: #aef3c4; font-weight: 800; font-size: 1.2rem; }
+    .bot-btn { background: #aef3c4; color: #0f3d2a; }
+    .bot-btn:hover { background: var(--white); transform: translateY(-2px); }
+    .botlynx-mock { background: rgba(0,0,0,0.25); border-radius: var(--radius); padding: 30px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+    .telegram-msg { background: var(--white); color: var(--dark); padding: 14px 18px; border-radius: 14px; margin-bottom: 12px; max-width: 88%; font-size: 0.92rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .telegram-msg.user { background: #d8f0e1; margin-left: auto; }
+    .telegram-msg strong { display: block; color: #0f3d2a; font-size: 0.78rem; margin-bottom: 4px; }
+
+    /* GALERÍA */
+    .galeria { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+    .galeria img { width: 100%; height: 280px; object-fit: cover; border-radius: var(--radius); transition: var(--transition); cursor: pointer; }
+    .galeria img:hover { transform: scale(1.02); box-shadow: var(--shadow-lg); }
+
+    /* WHY */
+    .why-bg { background: var(--sage-light); }
+    .why-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 40px; }
+    .why-item { background: var(--white); padding: 28px 26px; border-radius: var(--radius); display: flex; gap: 18px; align-items: flex-start; box-shadow: var(--shadow); }
+    .why-num { flex-shrink: 0; width: 46px; height: 46px; background: var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--dark); font-family: var(--font-title); font-weight: 800; font-size: 1.2rem; }
+    .why-item h4 { font-family: var(--font-title); font-weight: 700; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 6px; }
+    .why-item p { color: var(--gray); font-size: 0.95rem; }
+
+    /* CTA FINAL */
+    .cta-final { background: var(--dark); color: var(--white); text-align: center; padding: 100px 0; position: relative; overflow: hidden; }
+    .cta-final::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(244,216,28,0.1), transparent 70%); pointer-events: none; }
+    .cta-final h2 { font-family: var(--font-title); font-weight: 800; font-size: clamp(2.2rem, 5vw, 3.8rem); text-transform: uppercase; line-height: 1; margin-bottom: 20px; }
+    .cta-final h2 .y { color: var(--yellow); display: block; }
+    .cta-final p { font-size: 1.15rem; opacity: 0.85; max-width: 600px; margin: 0 auto 36px; }
+    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+    /* FOOTER */
+    footer { background: #14181550; background: #0F1411; color: rgba(255,255,255,0.8); padding: 60px 0 30px; }
+    .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+    .footer-brand img { width: 60px; margin-bottom: 16px; filter: brightness(0) invert(1); opacity: 0.9; }
+    .footer-brand h4 { font-family: var(--font-title); font-weight: 800; font-size: 1.3rem; text-transform: uppercase; margin-bottom: 10px; color: var(--white); }
+    .footer-brand p { font-size: 0.9rem; opacity: 0.7; }
+    .footer-col h5 { font-family: var(--font-title); font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--yellow); margin-bottom: 16px; }
+    .footer-col p, .footer-col a { display: block; font-size: 0.92rem; margin-bottom: 8px; opacity: 0.85; }
+    .footer-col a:hover { color: var(--yellow); opacity: 1; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; margin-top: 40px; text-align: center; font-size: 0.85rem; opacity: 0.55; }
+
+    /* ANIMATIONS */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px) {
+      .hero-grid, .software-grid, .botlynx-grid { grid-template-columns: 1fr; gap: 40px; }
+      .valor-grid { grid-template-columns: repeat(2, 1fr); }
+      .sectores-grid, .productos-grid { grid-template-columns: 1fr; }
+      .producto.featured { grid-template-columns: 1fr; }
+      .galeria { grid-template-columns: repeat(2, 1fr); }
+      .why-list { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--white); flex-direction: column; gap: 0; padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.06); box-shadow: var(--shadow); }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.06); width: 100%; }
+      .hamburger { display: block; }
+      .section { padding: 70px 0; }
+    }
+    @media (max-width: 600px) {
+      .valor-grid { grid-template-columns: 1fr; }
+      .galeria { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero { padding: 70px 0 60px; }
+      .hero-cta { flex-direction: column; }
+      .hero-cta .btn { width: 100%; }
+      .cta-buttons .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav">
+      <a href="#" class="brand">
+        <img src="assets/logo.png" alt="LynxScan">
+        <span>LynxScan</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#sectores" data-i18n="nav_sectors">Sectores</a>
+        <a href="#productos" data-i18n="nav_products">Productos</a>
+        <a href="#software" data-i18n="nav_software">Software</a>
+        <a href="#botlynx" data-i18n="nav_botlynx">BotLynx</a>
+        <a href="#contacto" data-i18n="nav_contact">Contacto</a>
+        <div class="lang-switch">
+          <button data-lang="es" class="active">ES</button>
+          <button data-lang="en">EN</button>
+        </div>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow" style="color: var(--yellow);" data-i18n="hero_eyebrow">LynxScan Technology</span>
+          <h1>
+            <span data-i18n="hero_t1">Escanea.</span>
+            <span class="y" data-i18n="hero_t2">Optimiza.</span>
+            <span data-i18n="hero_t3">Crece.</span>
+          </h1>
+          <p class="lead" data-i18n="hero_lead">Impulsa el rendimiento de tu aserradero con sistemas de escaneo 2D y 3D de alta precisión.</p>
+          <p class="sub" data-i18n="hero_sub">LynxScan combina IA, inteligencia industrial y análisis de datos en tiempo real para detectar defectos, optimizar cortes y extraer el máximo valor de cada tronco o tabla.</p>
+          <div class="hero-cta">
+            <a href="#productos" class="btn btn-primary" data-i18n="hero_cta1">Ver productos</a>
+            <a href="#contacto" class="btn btn-outline" data-i18n="hero_cta2">Solicitar demo</a>
+          </div>
+        </div>
+        <div class="hero-img">
+          <img src="assets/scanner-render.png" alt="LynxScan LS-501-PRO">
+          <span class="hero-badge" data-i18n="hero_badge">2D · 3D · IA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALOR -->
+  <section class="section center">
+    <div class="container">
+      <span class="eyebrow" data-i18n="val_eyebrow">Por qué LynxScan</span>
+      <h2 class="section-title"><span data-i18n="val_title1">Más control.</span> <span class="accent" data-i18n="val_title2">Menos desperdicio.</span></h2>
+      <p class="section-subtitle" data-i18n="val_sub">Sistemas precisos y conectados que ayudan a aserraderos y procesadores de madera a mejorar la eficiencia y tomar mejores decisiones.</p>
+      <div class="valor-grid">
+        <div class="valor-card fade-in">
+          <div class="valor-icon">1</div>
+          <h3 data-i18n="val1_t">Trazabilidad total</h3>
+          <p data-i18n="val1_p">De principio a fin. Cada tronco y cada tabla con su historial completo.</p>
+        </div>
+        <div class="valor-card fade-in">
+          <div class="valor-icon">2</div>
+          <h3 data-i18n="val2_t">Automatización</h3>
+          <p data-i18n="val2_p">Decisiones automatizadas que maximizan el rendimiento de cada línea.</p>
+        </div>
+        <div class="valor-card fade-in">
+          <div class="valor-icon">3</div>
+          <h3 data-i18n="val3_t">Visibilidad</h3>
+          <p data-i18n="val3_p">Datos en tiempo real de cada tronco o tabla, desde patio hasta corte.</p>
+        </div>
+        <div class="valor-card fade-in">
+          <div class="valor-icon">4</div>
+          <h3 data-i18n="val4_t">Más beneficio</h3>
+          <p data-i18n="val4_p">Menos desperdicio, más metros cúbicos aprovechados, mejor margen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTORES -->
+  <section class="section sectores-bg" id="sectores">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow" data-i18n="sec_eyebrow">Sectores</span>
+        <h2 class="section-title"><span data-i18n="sec_title1">Soluciones para cada</span> <span class="accent" data-i18n="sec_title2">línea de producción</span></h2>
+      </div>
+      <div class="sectores-grid">
+        <div class="sector-card fade-in">
+          <img src="assets/troncos.png" alt="Aserraderos">
+          <div class="sector-body">
+            <span class="sector-tag" data-i18n="sec1_tag">Aserraderos</span>
+            <h3 data-i18n="sec1_t">Patio de troncos y línea de aserrado</h3>
+            <p data-i18n="sec1_p">Soluciones de escaneo inteligente para optimizar el rendimiento, reducir desperdicios y mejorar el flujo de producción y la toma de decisiones.</p>
+          </div>
+        </div>
+        <div class="sector-card fade-in">
+          <img src="assets/scanner-troncos.png" alt="Madera Transformada">
+          <div class="sector-body">
+            <span class="sector-tag" data-i18n="sec2_tag">Madera Transformada</span>
+            <h3 data-i18n="sec2_t">CLT, LVL y madera estructural</h3>
+            <p data-i18n="sec2_p">Detección avanzada de defectos y clasificación automatizada para CLT, LVL y líneas de procesamiento de madera estructural.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTOS -->
+  <section class="section productos-bg" id="productos">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow" data-i18n="prod_eyebrow">Gama LynxScan</span>
+        <h2 class="section-title"><span data-i18n="prod_title1">Optimiza tu producción</span> <span class="accent" data-i18n="prod_title2">ahora</span></h2>
+        <p class="section-subtitle" data-i18n="prod_sub">Tres equipos diseñados para cubrir todo el ciclo: cubicación, escaneo 3D inteligente y optimización de corte.</p>
+      </div>
+
+      <div class="productos-grid">
+        <!-- LS-501 PRO (featured) -->
+        <div class="producto featured fade-in">
+          <div class="producto-img"><img src="assets/scanner-fabrica.png" alt="LS-501-PRO"></div>
+          <div>
+            <span class="producto-code">LS-501-PRO</span>
+            <h3 data-i18n="p501_t">Diseñado para maximizar cada tabla</h3>
+            <div class="sub" data-i18n="p501_s">Escáner multi-cara con optimización de corte integrada</div>
+            <ul>
+              <li data-i18n="p501_l1">Escaneo de hasta 6 caras</li>
+              <li data-i18n="p501_l2">Detección de defectos geométricos y biológicos</li>
+              <li data-i18n="p501_l3">Optimización automática de corte integrada</li>
+              <li data-i18n="p501_l4">Transmisión de datos a maquinaria</li>
+            </ul>
+            <div class="specs">
+              <span><strong data-i18n="p501_spec1_v">120 m/min</strong> <span data-i18n="p501_spec1_l">velocidad</span></span>
+              <span><strong>1200 – 6500 mm</strong> <span data-i18n="p501_spec2_l">longitud</span></span>
+              <span><strong>40 – 800 mm</strong> <span data-i18n="p501_spec3_l">anchura</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LS-301-PRO -->
+        <div class="producto fade-in">
+          <span class="producto-code">LS-301-PRO</span>
+          <h3 data-i18n="p301_t">Escáner 3D inteligente de troncos</h3>
+          <div class="sub" data-i18n="p301_s">Volumen 3D + clasificación a boxes</div>
+          <ul>
+            <li data-i18n="p301_l1">Escáner de volumen de madera en 3D</li>
+            <li data-i18n="p301_l2">Base de datos completa de producción</li>
+            <li data-i18n="p301_l3">Diámetro mínimo, máximo y medio</li>
+            <li data-i18n="p301_l4">Longitud, curvatura y conicidad 3D</li>
+            <li data-i18n="p301_l5">Conteo por minuto, hora y día</li>
+            <li data-i18n="p301_l6">Control de expulsores a boxes</li>
+          </ul>
+        </div>
+
+        <!-- LS-201-PRO -->
+        <div class="producto fade-in">
+          <span class="producto-code">LS-201-PRO</span>
+          <h3 data-i18n="p201_t">Cubicador 2D rápido y preciso</h3>
+          <div class="sub" data-i18n="p201_s">Volumen 2D + control de expulsores</div>
+          <ul>
+            <li data-i18n="p201_l1">Escáner de volumen de madera en 2D</li>
+            <li data-i18n="p201_l2">Base de datos completa de producción</li>
+            <li data-i18n="p201_l3">Diámetro mínimo, máximo y medio</li>
+            <li data-i18n="p201_l4">Longitud del tronco</li>
+            <li data-i18n="p201_l5">Conteo por minuto, hora y día</li>
+            <li data-i18n="p201_l6">Control de expulsores a boxes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOFTWARE -->
+  <section class="section" id="software">
+    <div class="container">
+      <div class="software-grid">
+        <div>
+          <span class="eyebrow" data-i18n="sw_eyebrow">Software ScanWood</span>
+          <h2 class="section-title"><span data-i18n="sw_title1">Decisiones</span> <span class="accent" data-i18n="sw_title2">en tiempo real</span></h2>
+          <p class="section-subtitle" data-i18n="sw_sub">Una interfaz industrial robusta que procesa cada tronco, calcula la mejor estrategia de corte y la envía directamente a la maquinaria.</p>
+          <ul class="software-list">
+            <li data-i18n="sw_l1">Vista 3D superior, inferior y por sección</li>
+            <li data-i18n="sw_l2">Cálculo de distancias de contorno y alineación</li>
+            <li data-i18n="sw_l3">Configuración técnica de parámetros</li>
+            <li data-i18n="sw_l4">Multilenguaje (ES / EN)</li>
+            <li data-i18n="sw_l5">Integración directa con PLC de aserrado</li>
+          </ul>
+        </div>
+        <div>
+          <img src="assets/software-ui.png" alt="ScanWood LS-501-PRO software">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTLYNX -->
+  <section class="section botlynx-bg" id="botlynx">
+    <div class="container">
+      <div class="botlynx-grid">
+        <div>
+          <span class="eyebrow" data-i18n="bot_eyebrow">Complemento BotLynx</span>
+          <h2><span data-i18n="bot_title1">Tu aserradero,</span> <span class="accent" data-i18n="bot_title2">en el bolsillo</span></h2>
+          <p data-i18n="bot_p1">BotLynx exprime al máximo tu escáner LynxScan llevando toda la producción a Telegram: consultas en lenguaje natural, alertas de línea inactiva e informe mensual PDF automático.</p>
+          <p data-i18n="bot_p2">Pregúntale como hablas — respuesta en segundos. Tus datos no salen del aserradero: IA local, base de datos en sólo lectura, whitelist de usuarios.</p>
+          <ul class="botlynx-features">
+            <li data-i18n="bot_f1">Producción en tiempo real desde Telegram</li>
+            <li data-i18n="bot_f2">Alertas automáticas si la línea cae</li>
+            <li data-i18n="bot_f3">Informe mensual PDF cada día 1 (Telegram + email)</li>
+            <li data-i18n="bot_f4">Llave en mano · sin instalación por parte del cliente</li>
+          </ul>
+          <a href="https://bittingenieria.github.io/botlynx/" target="_blank" rel="noopener" class="btn bot-btn" data-i18n="bot_cta">Descubrir BotLynx →</a>
+        </div>
+        <div class="botlynx-mock">
+          <div class="telegram-msg user">
+            <strong>Tú</strong>
+            <span data-i18n="bot_msg1">¿Cuántos boxes salieron ayer?</span>
+          </div>
+          <div class="telegram-msg">
+            <strong>@Lynx_bot</strong>
+            <span data-i18n="bot_msg2">Ayer salieron 14 boxes (1.247 troncos, 156 m³). Hora punta: 11:00.</span>
+          </div>
+          <div class="telegram-msg user">
+            <strong>Tú</strong>
+            <span data-i18n="bot_msg3">/informe</span>
+          </div>
+          <div class="telegram-msg">
+            <strong>@Lynx_bot</strong>
+            <span data-i18n="bot_msg4">📄 Informe mensual generado. Enviado por email + adjunto aquí.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section class="section center">
+    <div class="container">
+      <span class="eyebrow" data-i18n="gal_eyebrow">En producción</span>
+      <h2 class="section-title"><span data-i18n="gal_title1">LynxScan</span> <span class="accent" data-i18n="gal_title2">en aserraderos reales</span></h2>
+      <div class="galeria">
+        <img src="assets/scanner-fabrica.png" alt="Instalación interior" loading="lazy">
+        <img src="assets/scanner-exterior.png" alt="Escáner exterior" loading="lazy">
+        <img src="assets/linea-completa.png" alt="Línea completa" loading="lazy">
+        <img src="assets/scanner-troncos.png" alt="Escáner con troncos" loading="lazy">
+        <img src="assets/panel-control.png" alt="Panel de control" loading="lazy">
+        <img src="assets/troncos.png" alt="Patio de troncos" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="section why-bg">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow" data-i18n="why_eyebrow">¿Por qué elegir LynxScan?</span>
+        <h2 class="section-title"><span data-i18n="why_title1">La diferencia</span> <span class="accent" data-i18n="why_title2">en cada tronco</span></h2>
+      </div>
+      <div class="why-list">
+        <div class="why-item fade-in">
+          <div class="why-num">01</div>
+          <div>
+            <h4 data-i18n="why1_t">Trazabilidad de principio a fin</h4>
+            <p data-i18n="why1_p">Cada tronco identificado desde el patio hasta el corte. Cada tabla con su historial.</p>
+          </div>
+        </div>
+        <div class="why-item fade-in">
+          <div class="why-num">02</div>
+          <div>
+            <h4 data-i18n="why2_t">Automatización = máx rendimiento</h4>
+            <p data-i18n="why2_p">La IA decide el corte óptimo y lo envía directo a la sierra. Sin intervención manual.</p>
+          </div>
+        </div>
+        <div class="why-item fade-in">
+          <div class="why-num">03</div>
+          <div>
+            <h4 data-i18n="why3_t">Visibilidad de cada tronco o tabla</h4>
+            <p data-i18n="why3_p">Diámetros, longitud, curvatura, conicidad. Todo medido y guardado en tiempo real.</p>
+          </div>
+        </div>
+        <div class="why-item fade-in">
+          <div class="why-num">04</div>
+          <div>
+            <h4 data-i18n="why4_t">Menos desperdicio, más beneficio</h4>
+            <p data-i18n="why4_p">Reduce mermas y aumenta el aprovechamiento del metro cúbico. Margen directo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final" id="contacto">
+    <div class="container">
+      <span class="eyebrow" style="color: var(--yellow);" data-i18n="cta_eyebrow">Contacto</span>
+      <h2>
+        <span data-i18n="cta_t1">Optimiza tu producción</span>
+        <span class="y" data-i18n="cta_t2">ahora.</span>
+      </h2>
+      <p data-i18n="cta_p">Cuéntanos cómo es tu línea y te mostramos qué equipo encaja. Visitas, demos y presupuestos sin compromiso.</p>
+      <div class="cta-buttons">
+        <a href="tel:+34607306219" class="btn btn-primary">📞 +34 607 30 62 19</a>
+        <a href="mailto:electronica@lynxscan.com" class="btn btn-outline">✉ electronica@lynxscan.com</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="LynxScan">
+          <h4>LynxScan Technology</h4>
+          <p data-i18n="ft_desc">Sistemas de escaneo industrial para el sector maderero. Más control, menos desperdicio, mejores decisiones.</p>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="ft_h_prod">Productos</h5>
+          <a href="#productos">LS-501-PRO</a>
+          <a href="#productos">LS-301-PRO</a>
+          <a href="#productos">LS-201-PRO</a>
+          <a href="#software" data-i18n="ft_sw">Software ScanWood</a>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="ft_h_contact">Contacto</h5>
+          <a href="tel:+34607306219">+34 607 30 62 19</a>
+          <a href="mailto:electronica@lynxscan.com">electronica@lynxscan.com</a>
+          <p>Av. Santander 157, 34880<br>Guardo, Palencia (Spain)</p>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="ft_h_extras">Extras</h5>
+          <a href="https://bittingenieria.github.io/botlynx/" target="_blank" rel="noopener">BotLynx</a>
+          <a href="#sectores" data-i18n="ft_sec">Sectores</a>
+          <a href="#contacto" data-i18n="ft_cta">Solicitar demo</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © <span id="year"></span> LynxScan Technology · <span data-i18n="ft_rights">Todos los derechos reservados</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // I18N
+    const I18N = {
+      es: {
+        nav_sectors: "Sectores", nav_products: "Productos", nav_software: "Software", nav_botlynx: "BotLynx", nav_contact: "Contacto",
+        hero_eyebrow: "LynxScan Technology",
+        hero_t1: "Escanea.", hero_t2: "Optimiza.", hero_t3: "Crece.",
+        hero_lead: "Impulsa el rendimiento de tu aserradero con sistemas de escaneo 2D y 3D de alta precisión.",
+        hero_sub: "LynxScan combina IA, inteligencia industrial y análisis de datos en tiempo real para detectar defectos, optimizar cortes y extraer el máximo valor de cada tronco o tabla.",
+        hero_cta1: "Ver productos", hero_cta2: "Solicitar demo", hero_badge: "2D · 3D · IA",
+        val_eyebrow: "Por qué LynxScan",
+        val_title1: "Más control.", val_title2: "Menos desperdicio.",
+        val_sub: "Sistemas precisos y conectados que ayudan a aserraderos y procesadores de madera a mejorar la eficiencia y tomar mejores decisiones.",
+        val1_t: "Trazabilidad total", val1_p: "De principio a fin. Cada tronco y cada tabla con su historial completo.",
+        val2_t: "Automatización", val2_p: "Decisiones automatizadas que maximizan el rendimiento de cada línea.",
+        val3_t: "Visibilidad", val3_p: "Datos en tiempo real de cada tronco o tabla, desde patio hasta corte.",
+        val4_t: "Más beneficio", val4_p: "Menos desperdicio, más metros cúbicos aprovechados, mejor margen.",
+        sec_eyebrow: "Sectores", sec_title1: "Soluciones para cada", sec_title2: "línea de producción",
+        sec1_tag: "Aserraderos", sec1_t: "Patio de troncos y línea de aserrado",
+        sec1_p: "Soluciones de escaneo inteligente para optimizar el rendimiento, reducir desperdicios y mejorar el flujo de producción y la toma de decisiones.",
+        sec2_tag: "Madera Transformada", sec2_t: "CLT, LVL y madera estructural",
+        sec2_p: "Detección avanzada de defectos y clasificación automatizada para CLT, LVL y líneas de procesamiento de madera estructural.",
+        prod_eyebrow: "Gama LynxScan", prod_title1: "Optimiza tu producción", prod_title2: "ahora",
+        prod_sub: "Tres equipos diseñados para cubrir todo el ciclo: cubicación, escaneo 3D inteligente y optimización de corte.",
+        p501_t: "Diseñado para maximizar cada tabla", p501_s: "Escáner multi-cara con optimización de corte integrada",
+        p501_l1: "Escaneo de hasta 6 caras",
+        p501_l2: "Detección de defectos geométricos y biológicos",
+        p501_l3: "Optimización automática de corte integrada",
+        p501_l4: "Transmisión de datos a maquinaria",
+        p501_spec1_v: "120 m/min", p501_spec1_l: "velocidad", p501_spec2_l: "longitud", p501_spec3_l: "anchura",
+        p301_t: "Escáner 3D inteligente de troncos", p301_s: "Volumen 3D + clasificación a boxes",
+        p301_l1: "Escáner de volumen de madera en 3D",
+        p301_l2: "Base de datos completa de producción",
+        p301_l3: "Diámetro mínimo, máximo y medio",
+        p301_l4: "Longitud, curvatura y conicidad 3D",
+        p301_l5: "Conteo por minuto, hora y día",
+        p301_l6: "Control de expulsores a boxes",
+        p201_t: "Cubicador 2D rápido y preciso", p201_s: "Volumen 2D + control de expulsores",
+        p201_l1: "Escáner de volumen de madera en 2D",
+        p201_l2: "Base de datos completa de producción",
+        p201_l3: "Diámetro mínimo, máximo y medio",
+        p201_l4: "Longitud del tronco",
+        p201_l5: "Conteo por minuto, hora y día",
+        p201_l6: "Control de expulsores a boxes",
+        sw_eyebrow: "Software ScanWood", sw_title1: "Decisiones", sw_title2: "en tiempo real",
+        sw_sub: "Una interfaz industrial robusta que procesa cada tronco, calcula la mejor estrategia de corte y la envía directamente a la maquinaria.",
+        sw_l1: "Vista 3D superior, inferior y por sección",
+        sw_l2: "Cálculo de distancias de contorno y alineación",
+        sw_l3: "Configuración técnica de parámetros",
+        sw_l4: "Multilenguaje (ES / EN)",
+        sw_l5: "Integración directa con PLC de aserrado",
+        bot_eyebrow: "Complemento BotLynx", bot_title1: "Tu aserradero,", bot_title2: "en el bolsillo",
+        bot_p1: "BotLynx exprime al máximo tu escáner LynxScan llevando toda la producción a Telegram: consultas en lenguaje natural, alertas de línea inactiva e informe mensual PDF automático.",
+        bot_p2: "Pregúntale como hablas — respuesta en segundos. Tus datos no salen del aserradero: IA local, base de datos en sólo lectura, whitelist de usuarios.",
+        bot_f1: "Producción en tiempo real desde Telegram",
+        bot_f2: "Alertas automáticas si la línea cae",
+        bot_f3: "Informe mensual PDF cada día 1 (Telegram + email)",
+        bot_f4: "Llave en mano · sin instalación por parte del cliente",
+        bot_cta: "Descubrir BotLynx →",
+        bot_msg1: "¿Cuántos boxes salieron ayer?",
+        bot_msg2: "Ayer salieron 14 boxes (1.247 troncos, 156 m³). Hora punta: 11:00.",
+        bot_msg3: "/informe",
+        bot_msg4: "📄 Informe mensual generado. Enviado por email + adjunto aquí.",
+        gal_eyebrow: "En producción", gal_title1: "LynxScan", gal_title2: "en aserraderos reales",
+        why_eyebrow: "¿Por qué elegir LynxScan?", why_title1: "La diferencia", why_title2: "en cada tronco",
+        why1_t: "Trazabilidad de principio a fin", why1_p: "Cada tronco identificado desde el patio hasta el corte. Cada tabla con su historial.",
+        why2_t: "Automatización = máx rendimiento", why2_p: "La IA decide el corte óptimo y lo envía directo a la sierra. Sin intervención manual.",
+        why3_t: "Visibilidad de cada tronco o tabla", why3_p: "Diámetros, longitud, curvatura, conicidad. Todo medido y guardado en tiempo real.",
+        why4_t: "Menos desperdicio, más beneficio", why4_p: "Reduce mermas y aumenta el aprovechamiento del metro cúbico. Margen directo.",
+        cta_eyebrow: "Contacto", cta_t1: "Optimiza tu producción", cta_t2: "ahora.",
+        cta_p: "Cuéntanos cómo es tu línea y te mostramos qué equipo encaja. Visitas, demos y presupuestos sin compromiso.",
+        ft_desc: "Sistemas de escaneo industrial para el sector maderero. Más control, menos desperdicio, mejores decisiones.",
+        ft_h_prod: "Productos", ft_sw: "Software ScanWood",
+        ft_h_contact: "Contacto", ft_h_extras: "Extras",
+        ft_sec: "Sectores", ft_cta: "Solicitar demo",
+        ft_rights: "Todos los derechos reservados"
+      },
+      en: {
+        nav_sectors: "Sectors", nav_products: "Products", nav_software: "Software", nav_botlynx: "BotLynx", nav_contact: "Contact",
+        hero_eyebrow: "LynxScan Technology",
+        hero_t1: "Scan.", hero_t2: "Optimize.", hero_t3: "Grow.",
+        hero_lead: "Boost your sawmill's performance with high-precision 2D and 3D scanning systems.",
+        hero_sub: "LynxScan combines AI, industrial intelligence and real-time data analysis to detect defects, optimize cuts and extract maximum value from every log or board.",
+        hero_cta1: "See products", hero_cta2: "Request demo", hero_badge: "2D · 3D · AI",
+        val_eyebrow: "Why LynxScan",
+        val_title1: "More control.", val_title2: "Less waste.",
+        val_sub: "Precise, connected systems that help sawmills and wood processors improve efficiency and make better decisions.",
+        val1_t: "Full traceability", val1_p: "From start to finish. Every log and every board with its complete history.",
+        val2_t: "Automation", val2_p: "Automated decisions that maximize the output of every line.",
+        val3_t: "Visibility", val3_p: "Real-time data on every log or board, from yard to cut.",
+        val4_t: "More profit", val4_p: "Less waste, more cubic meters used, better margin.",
+        sec_eyebrow: "Sectors", sec_title1: "Solutions for every", sec_title2: "production line",
+        sec1_tag: "Sawmills", sec1_t: "Log yard and sawing line",
+        sec1_p: "Smart scanning solutions to optimize yield, reduce waste and improve production flow and decision-making.",
+        sec2_tag: "Engineered Wood", sec2_t: "CLT, LVL and structural timber",
+        sec2_p: "Advanced defect detection and automated classification for CLT, LVL and structural wood processing lines.",
+        prod_eyebrow: "LynxScan range", prod_title1: "Optimize your production", prod_title2: "now",
+        prod_sub: "Three systems designed to cover the entire cycle: cubing, smart 3D scanning and cutting optimization.",
+        p501_t: "Designed to maximize every board", p501_s: "Multi-side scanner with integrated cutting optimization",
+        p501_l1: "Scanning of up to 6 sides",
+        p501_l2: "Detection of geometric and biological defects",
+        p501_l3: "Integrated automatic cutting optimization",
+        p501_l4: "Data transmission to machinery",
+        p501_spec1_v: "120 m/min", p501_spec1_l: "feed speed", p501_spec2_l: "length", p501_spec3_l: "width",
+        p301_t: "Smart 3D log scanner", p301_s: "3D volume + box sorting",
+        p301_l1: "3D wood volume scanner",
+        p301_l2: "Full production database",
+        p301_l3: "Min, max and average diameter",
+        p301_l4: "Length, curvature and 3D taper",
+        p301_l5: "Log counting per minute, hour and day",
+        p301_l6: "Ejector control to boxes",
+        p201_t: "Fast and accurate 2D cuber", p201_s: "2D volume + ejector control",
+        p201_l1: "2D wood volume scanner",
+        p201_l2: "Full production database",
+        p201_l3: "Min, max and average diameter",
+        p201_l4: "Log length",
+        p201_l5: "Log counting per minute, hour and day",
+        p201_l6: "Ejector control to boxes",
+        sw_eyebrow: "ScanWood software", sw_title1: "Real-time", sw_title2: "decisions",
+        sw_sub: "A robust industrial interface that processes every log, calculates the best cutting strategy and sends it directly to the machinery.",
+        sw_l1: "3D top, bottom and section views",
+        sw_l2: "Contour and alignment distance calculation",
+        sw_l3: "Technical parameter configuration",
+        sw_l4: "Multi-language (ES / EN)",
+        sw_l5: "Direct integration with sawmill PLC",
+        bot_eyebrow: "BotLynx add-on", bot_title1: "Your sawmill,", bot_title2: "in your pocket",
+        bot_p1: "BotLynx unlocks the full potential of your LynxScan scanner by bringing all production to Telegram: natural-language queries, downtime alerts and automatic monthly PDF reports.",
+        bot_p2: "Ask in plain language — answer in seconds. Your data never leaves the sawmill: local AI, read-only database, user whitelist.",
+        bot_f1: "Real-time production from Telegram",
+        bot_f2: "Automatic alerts if the line goes down",
+        bot_f3: "Monthly PDF report every 1st (Telegram + email)",
+        bot_f4: "Turnkey · zero installation on customer side",
+        bot_cta: "Discover BotLynx →",
+        bot_msg1: "How many boxes came out yesterday?",
+        bot_msg2: "Yesterday: 14 boxes (1,247 logs, 156 m³). Peak hour: 11:00.",
+        bot_msg3: "/report",
+        bot_msg4: "📄 Monthly report generated. Sent by email + attached here.",
+        gal_eyebrow: "In production", gal_title1: "LynxScan", gal_title2: "at real sawmills",
+        why_eyebrow: "Why choose LynxScan?", why_title1: "The difference", why_title2: "in every log",
+        why1_t: "Traceability from start to finish", why1_p: "Every log tracked from yard to cut. Every board with its history.",
+        why2_t: "Automation = max yield", why2_p: "AI decides the optimal cut and sends it straight to the saw. No manual input.",
+        why3_t: "Visibility of every log or board", why3_p: "Diameters, length, curvature, taper. All measured and stored in real time.",
+        why4_t: "Less waste, more profit", why4_p: "Reduce losses and improve cubic-meter yield. Direct margin gain.",
+        cta_eyebrow: "Contact", cta_t1: "Optimize your production", cta_t2: "now.",
+        cta_p: "Tell us about your line and we'll show you which system fits. Visits, demos and quotes with no commitment.",
+        ft_desc: "Industrial scanning systems for the timber sector. More control, less waste, better decisions.",
+        ft_h_prod: "Products", ft_sw: "ScanWood software",
+        ft_h_contact: "Contact", ft_h_extras: "Extras",
+        ft_sec: "Sectors", ft_cta: "Request demo",
+        ft_rights: "All rights reserved"
+      }
+    };
+
+    function setLang(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (I18N[lang][key] !== undefined) el.textContent = I18N[lang][key];
+      });
+      document.querySelectorAll('.lang-switch button').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+      try { localStorage.setItem('lang', lang); } catch(_) {}
+    }
+
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.addEventListener('click', () => setLang(b.dataset.lang));
+    });
+
+    // initial lang: localStorage > browser > es
+    let initial = 'es';
+    try {
+      const saved = localStorage.getItem('lang');
+      if (saved === 'es' || saved === 'en') initial = saved;
+      else if ((navigator.language || '').toLowerCase().startsWith('en')) initial = 'en';
+    } catch(_) {}
+    setLang(initial);
+
+    // Hamburger
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+    });
+
+    // Fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
