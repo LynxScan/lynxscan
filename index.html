@@ -117,12 +117,15 @@
     .producto-img { display: none; border-radius: 8px; overflow: hidden; }
     .producto-img img { width: 100%; height: 100%; object-fit: cover; min-height: 280px; }
     .producto-code { display: inline-block; background: var(--yellow); color: var(--dark); padding: 6px 14px; border-radius: 6px; font-family: var(--font-title); font-weight: 800; letter-spacing: 1.5px; margin-bottom: 14px; font-size: 0.9rem; }
-    .producto h3 { font-family: var(--font-title); font-weight: 800; font-size: 1.7rem; text-transform: uppercase; line-height: 1.05; margin-bottom: 8px; }
-    .producto .sub { color: var(--yellow); font-weight: 600; margin-bottom: 20px; font-size: 0.95rem; }
+    .producto h3 { font-family: var(--font-title); font-weight: 800; font-size: 1.55rem; text-transform: uppercase; line-height: 1.1; margin-bottom: 8px; overflow-wrap: break-word; }
+    .producto .sub { color: var(--yellow); font-weight: 600; margin-bottom: 16px; font-size: 0.95rem; }
+    .producto .ideal { display: inline-block; background: rgba(244,216,28,0.12); color: var(--yellow); padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 18px; border: 1px solid rgba(244,216,28,0.25); }
     .producto ul { list-style: none; }
-    .producto ul li { padding: 9px 0; padding-left: 28px; position: relative; color: rgba(255,255,255,0.85); font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .producto ul li { padding: 9px 0; padding-left: 28px; position: relative; color: rgba(255,255,255,0.85); font-size: 0.93rem; border-bottom: 1px solid rgba(255,255,255,0.06); overflow-wrap: break-word; }
     .producto ul li:last-child { border-bottom: none; }
     .producto ul li::before { content: '✓'; position: absolute; left: 0; top: 9px; color: var(--yellow); font-weight: 800; }
+    .producto ul li.highlight { color: var(--yellow); font-weight: 600; }
+    .producto ul li.highlight::before { content: '★'; }
     .producto .specs { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; color: rgba(255,255,255,0.75); }
     .producto .specs span { display: inline-flex; align-items: center; gap: 6px; }
     .producto .specs strong { color: var(--yellow); font-weight: 700; }
@@ -204,6 +207,12 @@
       .nav-links a { padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.06); width: 100%; }
       .hamburger { display: block; }
       .section { padding: 70px 0; }
+      .producto { padding: 26px 22px; }
+      .producto.featured { grid-column: auto; }
+      .producto.featured .producto-img img { min-height: 220px; }
+      .producto h3 { font-size: 1.4rem; }
+      .producto .specs { gap: 12px; font-size: 0.8rem; }
+      .botlynx-mock { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 600px) {
       .valor-grid { grid-template-columns: 1fr; }
@@ -213,6 +222,10 @@
       .hero-cta { flex-direction: column; }
       .hero-cta .btn { width: 100%; }
       .cta-buttons .btn { width: 100%; }
+      .producto { padding: 22px 18px; }
+      .producto h3 { font-size: 1.3rem; }
+      .producto ul li { font-size: 0.9rem; padding-left: 24px; }
+      .container { padding: 0 16px; }
     }
   </style>
 </head>
@@ -363,11 +376,14 @@
           <span class="producto-code">LS-301-PRO</span>
           <h3 data-i18n="p301_t">Escáner 3D inteligente de troncos</h3>
           <div class="sub" data-i18n="p301_s">Volumen 3D + clasificación a boxes</div>
+          <span class="ideal" data-i18n="p301_ideal">Ideal · Cubicación premium con control de calidad</span>
           <ul>
             <li data-i18n="p301_l1">Escáner de volumen de madera en 3D</li>
-            <li data-i18n="p301_l2">Base de datos completa de producción</li>
+            <li class="highlight" data-i18n="p301_l_curv">Detección de curvatura del tronco</li>
+            <li class="highlight" data-i18n="p301_l_taper">Conicidad 3D (3D taper)</li>
             <li data-i18n="p301_l3">Diámetro mínimo, máximo y medio</li>
-            <li data-i18n="p301_l4">Longitud, curvatura y conicidad 3D</li>
+            <li data-i18n="p301_l4">Longitud del tronco</li>
+            <li data-i18n="p301_l2">Base de datos completa de producción</li>
             <li data-i18n="p301_l5">Conteo por minuto, hora y día</li>
             <li data-i18n="p301_l6">Control de expulsores a boxes</li>
           </ul>
@@ -378,11 +394,14 @@
           <span class="producto-code">LS-201-PRO</span>
           <h3 data-i18n="p201_t">Cubicador 2D rápido y preciso</h3>
           <div class="sub" data-i18n="p201_s">Volumen 2D + control de expulsores</div>
+          <span class="ideal" data-i18n="p201_ideal">Ideal · Líneas de alto volumen con cubicación rápida</span>
           <ul>
             <li data-i18n="p201_l1">Escáner de volumen de madera en 2D</li>
-            <li data-i18n="p201_l2">Base de datos completa de producción</li>
+            <li class="highlight" data-i18n="p201_l_fast">Cubicación 2D ultrarrápida</li>
+            <li class="highlight" data-i18n="p201_l_taper">Conicidad 2D (2D taper)</li>
             <li data-i18n="p201_l3">Diámetro mínimo, máximo y medio</li>
             <li data-i18n="p201_l4">Longitud del tronco</li>
+            <li data-i18n="p201_l2">Base de datos completa de producción</li>
             <li data-i18n="p201_l5">Conteo por minuto, hora y día</li>
             <li data-i18n="p201_l6">Control de expulsores a boxes</li>
           </ul>
@@ -429,7 +448,7 @@
             <li data-i18n="bot_f3">Informe mensual PDF cada día 1 (Telegram + email)</li>
             <li data-i18n="bot_f4">Llave en mano · sin instalación por parte del cliente</li>
           </ul>
-          <a href="https://bittingenieria.github.io/botlynx/" target="_blank" rel="noopener" class="btn bot-btn" data-i18n="bot_cta">Descubrir BotLynx →</a>
+          <a href="https://lynxscan.github.io/botlynx/" target="_blank" rel="noopener" class="btn bot-btn" data-i18n="bot_cta">Descubrir BotLynx →</a>
         </div>
         <div class="botlynx-mock">
           <figure>
@@ -545,7 +564,7 @@
         </div>
         <div class="footer-col">
           <h5 data-i18n="ft_h_extras">Extras</h5>
-          <a href="https://bittingenieria.github.io/botlynx/" target="_blank" rel="noopener">BotLynx</a>
+          <a href="https://lynxscan.github.io/botlynx/" target="_blank" rel="noopener">BotLynx</a>
           <a href="#sectores" data-i18n="ft_sec">Sectores</a>
           <a href="#contacto" data-i18n="ft_cta">Solicitar demo</a>
         </div>
@@ -587,14 +606,20 @@
         p501_l4: "Transmisión de datos a maquinaria",
         p501_spec1_v: "120 m/min", p501_spec1_l: "velocidad", p501_spec2_l: "longitud", p501_spec3_l: "anchura",
         p301_t: "Escáner 3D inteligente de troncos", p301_s: "Volumen 3D + clasificación a boxes",
+        p301_ideal: "Ideal · Cubicación premium con control de calidad",
         p301_l1: "Escáner de volumen de madera en 3D",
+        p301_l_curv: "Detección de curvatura del tronco",
+        p301_l_taper: "Conicidad 3D (3D taper)",
         p301_l2: "Base de datos completa de producción",
         p301_l3: "Diámetro mínimo, máximo y medio",
-        p301_l4: "Longitud, curvatura y conicidad 3D",
+        p301_l4: "Longitud del tronco",
         p301_l5: "Conteo por minuto, hora y día",
         p301_l6: "Control de expulsores a boxes",
         p201_t: "Cubicador 2D rápido y preciso", p201_s: "Volumen 2D + control de expulsores",
+        p201_ideal: "Ideal · Líneas de alto volumen con cubicación rápida",
         p201_l1: "Escáner de volumen de madera en 2D",
+        p201_l_fast: "Cubicación 2D ultrarrápida",
+        p201_l_taper: "Conicidad 2D (2D taper)",
         p201_l2: "Base de datos completa de producción",
         p201_l3: "Diámetro mínimo, máximo y medio",
         p201_l4: "Longitud del tronco",
@@ -660,14 +685,20 @@
         p501_l4: "Data transmission to machinery",
         p501_spec1_v: "120 m/min", p501_spec1_l: "feed speed", p501_spec2_l: "length", p501_spec3_l: "width",
         p301_t: "Smart 3D log scanner", p301_s: "3D volume + box sorting",
+        p301_ideal: "Ideal · Premium cubing with quality control",
         p301_l1: "3D wood volume scanner",
+        p301_l_curv: "Log curvature detection",
+        p301_l_taper: "3D taper",
         p301_l2: "Full production database",
         p301_l3: "Min, max and average diameter",
-        p301_l4: "Length, curvature and 3D taper",
+        p301_l4: "Log length",
         p301_l5: "Log counting per minute, hour and day",
         p301_l6: "Ejector control to boxes",
         p201_t: "Fast and accurate 2D cuber", p201_s: "2D volume + ejector control",
+        p201_ideal: "Ideal · High-volume lines with fast cubing",
         p201_l1: "2D wood volume scanner",
+        p201_l_fast: "Ultra-fast 2D cubing",
+        p201_l_taper: "2D taper",
         p201_l2: "Full production database",
         p201_l3: "Min, max and average diameter",
         p201_l4: "Log length",
